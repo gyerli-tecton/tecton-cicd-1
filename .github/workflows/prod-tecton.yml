@@ -16,7 +16,7 @@ jobs:
     #   name: Development
     env:
       TECTON_API_KEY: ${{ secrets.PROD_API_KEY }}
-      API_SERVICE: ${{ vars.PROD_API_SERVICE }}
+      API_SERVICE: ${{ vars.API_SERVICE }}
       WORKSPACE: ${{ vars.PROD_WORKSPACE }}
     steps:
       - uses: actions/checkout@v3

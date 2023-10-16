@@ -11,7 +11,7 @@ jobs:
       name: Development
     env:
       TECTON_API_KEY: ${{ secrets.DEV_API_KEY }}
-      API_SERVICE: ${{ vars.DEV_API_SERVICE }}
+      API_SERVICE: ${{ vars.API_SERVICE }}
       WORKSPACE: ${{ vars.DEV_WORKSPACE }}
     steps:
       - uses: actions/checkout@v3
@@ -45,7 +45,7 @@ jobs:
         name: Development
     env:
         TECTON_API_KEY: ${{ secrets.DEV_API_KEY }}
-        API_SERVICE: ${{ vars._DEV_API_SERVICE }}
+        API_SERVICE: ${{ vars.API_SERVICE }}
         WORKSPACE: ${{ vars.DEV_WORKSPACE }}
     steps:
         - uses: actions/checkout@v3
@@ -57,7 +57,7 @@ jobs:
 
         - name: print dev apply variables
           run: |
-            echo dev API_SERVICE variable => $DEV_API_SERVICE
+            echo dev API_SERVICE variable => $API_SERVICE
             echo dev WORKSPACE variable =>  $WORKSPACE
             echo dev TECTON_API_KEY variable =>  $TECTON_API_KEY
 
