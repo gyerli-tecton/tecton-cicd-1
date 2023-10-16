@@ -62,7 +62,7 @@ jobs:
         - name: print Production apply variables
           run: |
             echo "Production API_SERVICE variable => $DEV_API_SERVICE"
-            echo Production WORKSPACE variable =>  $WORKSPACE"
+            echo "Production WORKSPACE variable =>  $WORKSPACE"
             echo "Production TECTON_API_KEY variable =>  $TECTON_API_KEY"
 
         - name: Install Tecton CLI
