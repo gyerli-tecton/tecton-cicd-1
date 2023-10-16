@@ -1,0 +1,73 @@
+name: Tecton CICD - plan/apply to dev
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    environment:
+      name: Development
+    env:
+      TECTON_API_KEY: ${{ secrets.DEV_API_KEY }}
+      API_SERVICE: ${{ vars.API_SERVICE }}
+      WORKSPACE: ${{ vars.DEV_WORKSPACE }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - name: print dev plan variables
+        run: |
+           echo "dev API_SERVICE variable => $API_SERVICE"
+           echo "dev WORKSPACE variable =>  $WORKSPACE"
+           echo "dev TECTON_API_KEY variable =>  $TECTON_API_KEY"
+
+      - name: Install Tecton CLI
+        run: pip install -r requirements.txt
+
+      - name: Select Development Tecton workspace
+        run: tecton workspace select $WORKSPACE
+
+      - name: Run Tecton plan
+        run: 
+            echo "Running Tecton plan in dev branch"
+        
+
+  apply:
+    needs: [plan]
+    runs-on: ubuntu-latest
+    environment: 
+        name: Development
+    env:
+        TECTON_API_KEY: ${{ secrets.DEV_API_KEY }}
+        API_SERVICE: ${{ vars.API_SERVICE }}
+        WORKSPACE: ${{ vars.DEV_WORKSPACE }}
+    steps:
+        - uses: actions/checkout@v3
+
+        - uses: actions/setup-python@v4
+          with:
+            python-version: '3.9'
+            cache: 'pip'
+
+        - name: print dev apply variables
+          run: |
+            echo "dev API_SERVICE variable => $API_SERVICE"
+            echo "dev WORKSPACE variable =>  $WORKSPACE"
+            echo "dev TECTON_API_KEY variable =>  $TECTON_API_KEY"
+
+        - name: Install Tecton CLI
+          run: pip install -r requirements.txt
+
+        - name: Select workspace
+          run: tecton workspace select $WORKSPACE
+        - name: Run Tecton plan
+          run: 
+              echo "Running Tecton apply in dev branch"          
+
+
