@@ -1,0 +1,76 @@
+name: Tecton CICD - plan/apply to main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  plan:
+    runs-on: ubuntu-latest
+    # we don't want any Environment defined here b/c 
+    # we want to run this job when a push is made to main 
+    # regardless of the environment approval status
+
+    # environment:
+    #   name: Development
+    env:
+      TECTON_API_KEY: ${{ secrets.PROD_API_KEY }}
+      API_SERVICE: ${{ vars.PROD_API_SERVICE }}
+      WORKSPACE: ${{ vars.PROD_WORKSPACE }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - name: print main plan variables
+        run: |
+           echo Production API_SERVICE variable => $API_SERVICE
+           echo Production WORKSPACE variable =>  $WORKSPACE
+           echo Production TECTON_API_KEY variable =>  $TECTON_API_KEY
+
+      - name: Install Tecton CLI
+        run: pip install -r requirements.txt
+
+      - name: Select Production Tecton workspace
+        run: tecton workspace select $WORKSPACE
+     
+      - name: Run Tecton plan
+        run: 
+            echo "Running Tecton plan in main branch"
+
+  apply:
+    needs: [plan]
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+    env:
+      TECTON_API_KEY: ${{ secrets.PROD_API_KEY }}
+      API_SERVICE: ${{ vars.PROD_API_SERVICE }}
+      WORKSPACE: ${{ vars.PROD_WORKSPACE }}
+    steps:
+        - uses: actions/checkout@v3
+
+        - uses: actions/setup-python@v4
+          with:
+            python-version: '3.9'
+            cache: 'pip'
+
+        - name: print Production apply variables
+          run: |
+            echo Production API_SERVICE variable => $DEV_API_SERVICE
+            echo Production WORKSPACE variable =>  $WORKSPACE
+            echo Production TECTON_API_KEY variable =>  $TECTON_API_KEY
+
+        - name: Install Tecton CLI
+          run: pip install -r requirements.txt
+  
+        - name: Select Production Tecton workspace
+          run: tecton workspace select $WORKSPACE
+
+        - name: Run Tecton plan
+          run: 
+              echo "Running Tecton apply in main branch"          
