@@ -66,7 +66,8 @@ jobs:
 
         - name: Select workspace
           run: tecton workspace select $WORKSPACE
-        - name: Run Tecton plan
+
+        - name: Run Tecton apply
           run: 
               echo "Running Tecton apply in dev branch"          
 

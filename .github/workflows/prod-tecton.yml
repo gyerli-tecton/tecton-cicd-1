@@ -28,7 +28,7 @@ jobs:
 
       - name: print main plan variables
         run: |
-           echo "Production "API_SERVICE variable => $API_SERVICE"
+           echo "Production API_SERVICE variable => $API_SERVICE"
            echo "Production WORKSPACE variable =>  $WORKSPACE"
            echo "Production TECTON_API_KEY variable =>  $TECTON_API_KEY"
 
@@ -71,6 +71,6 @@ jobs:
         - name: Select Production Tecton workspace
           run: tecton workspace select $WORKSPACE
 
-        - name: Run Tecton plan
+        - name: Run Tecton apply
           run: 
               echo "Running Tecton apply in main branch"          
