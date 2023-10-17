@@ -41,14 +41,14 @@ jobs:
         run: tecton workspace select $WORKSPACE
      
       - name: Run Tecton plan
-        run: tecton plan | tee output.log
+        run: tecton plan --json-out plan.json
 
       - name: Extract plan output to get the planid
         id: planid
         run: |
-            PLANID=$(cat output.log | perl -wne '/Generated plan ID is ([0-9a-f]+)/i and print $1') 
-            echo "planid=$PLANID" 
-            echo "planid=$PLANID" >> $GITHUB_OUTPUT
+          PLANID=$(jq -r .plan_id < plan.json)
+          echo "planid=$PLANID" 
+          echo "planid=$PLANID" >> $GITHUB_OUTPUT
 
   apply:
     needs: [plan]
