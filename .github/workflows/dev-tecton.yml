@@ -42,7 +42,7 @@ jobs:
       - name: Extract plan output to get the planid
         id: planid
         run: |
-          PLANID=$(jq -r .planId < plan.json)
+          PLANID=$(jq -r .plan_id < plan.json)
           echo "planid=$PLANID" 
           echo "planid=$PLANID" >> $GITHUB_OUTPUT
         # run: |
