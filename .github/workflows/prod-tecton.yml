@@ -73,7 +73,7 @@ jobs:
             echo "Production WORKSPACE variable =>  $WORKSPACE"
             echo "Production TECTON_API_KEY variable =>  $TECTON_API_KEY"
 
-        - name: Install Tecton CLI
+        - name: Install Tecton CLI 
           run: pip install -r requirements.txt
   
         - name: Select Production Tecton workspace
