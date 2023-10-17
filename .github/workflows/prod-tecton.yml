@@ -14,6 +14,8 @@ jobs:
 
     # environment:
     #   name: Development
+    outputs:
+      planid: ${{ steps.planid.outputs.planid }}   
     env:
       TECTON_API_KEY: ${{ secrets.PROD_API_KEY }}
       API_SERVICE: ${{ vars.API_SERVICE }}
@@ -53,8 +55,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: Production
-    outputs:
-      planid: ${{ steps.planid.outputs.planid }}
     env:
       TECTON_API_KEY: ${{ secrets.PROD_API_KEY }}
       API_SERVICE: ${{ vars.API_SERVICE }}
@@ -72,6 +72,8 @@ jobs:
             echo "Production API_SERVICE variable => $API_SERVICE"
             echo "Production WORKSPACE variable =>  $WORKSPACE"
             echo "Production TECTON_API_KEY variable =>  $TECTON_API_KEY"
+            echo "Plan ID is ${{ needs.plan.outputs.planid }}"
+
 
         - name: Install Tecton CLI 
           run: pip install -r requirements.txt
