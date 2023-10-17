@@ -14,6 +14,8 @@ jobs:
 
     # environment:
     #   name: Development
+    outputs:
+      planid: ${{ steps.planid.outputs.planid }}
     env:
       TECTON_API_KEY: ${{ secrets.PROD_API_KEY }}
       API_SERVICE: ${{ vars.API_SERVICE }}
@@ -53,8 +55,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: Production
-    outputs:
-      planid: ${{ steps.planid.outputs.planid }}
     env:
       TECTON_API_KEY: ${{ secrets.PROD_API_KEY }}
       API_SERVICE: ${{ vars.API_SERVICE }}
