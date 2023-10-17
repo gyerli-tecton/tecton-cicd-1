@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Development
+    outputs:
+      planid: ${{ steps.planid.outputs.planid }}
     env:
       TECTON_API_KEY: ${{ secrets.DEV_API_KEY }}
       API_SERVICE: ${{ vars.API_SERVICE }}
@@ -34,8 +36,14 @@ jobs:
         run: tecton workspace select $WORKSPACE
 
       - name: Run Tecton plan
-        run: 
-            echo "Running Tecton plan in dev branch"
+        run: tecton plan | tee output.log
+
+      - name: Extract plan output to get the planid
+        id: planid
+        run: |
+            PLANID=$(cat output.log | perl -wne '/Generated plan ID is ([0-9a-f]+)/i and print $1') 
+            echo "planid=$PLANID" 
+            echo "planid=$PLANID" >> $GITHUB_OUTPUT        
         
 
   apply:
@@ -67,8 +75,9 @@ jobs:
         - name: Select workspace
           run: tecton workspace select $WORKSPACE
 
-        - name: Run Tecton apply
-          run: 
-              echo "Running Tecton apply in dev branch"          
+        - name: tecton apply planid
+          env:
+            PLANID: ${{needs.plan.outputs.planid}}
+          run: tecton apply -y --plan-id $PLANID  
 
 
