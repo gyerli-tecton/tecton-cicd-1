@@ -46,7 +46,7 @@ jobs:
         run: |
             PLANID=$(cat output.log | perl -wne '/Generated plan ID is ([0-9a-f]+)/i and print $1') 
             echo "planid=$PLANID" 
-            echo "planid=$PLANID" >> $GITHUB_OUTPUT
+            echo "::set-output name=planid::$PLANID"
 
   apply:
     needs: [plan]
