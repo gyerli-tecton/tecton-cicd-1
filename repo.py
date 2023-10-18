@@ -29,7 +29,7 @@ user = Entity(
 
 # A FeatureView that ingests data from the BatchSource defined above
 @batch_feature_view(
-    name="user_txns_custom_7d",``
+    name="user_txns_custom_7d",
     sources=[FilteredSource(txn_batch, start_time_offset=timedelta(days=-6))],
     entities=[user],
     mode="spark_sql",
